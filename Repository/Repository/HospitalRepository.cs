@@ -51,7 +51,7 @@ namespace Repository.Repository
         public List<Hospital> ObterTodos(string busca)
         {
             
-            return (from hospital in Context.Hospitais where hospital.RazaoSocial.Contains(busca) || hospital.Cnpj.Contains(busca) orderby hospital.RazaoSocial select hospital).ToList();
+            return (from hospital in Context.Hospitais where hospital.RegistroAtivo == true && (hospital.RazaoSocial.Contains(busca) || hospital.Cnpj.Contains(busca)) orderby hospital.RazaoSocial select hospital).ToList();
         }
 
         public bool Update(Hospital hospital)
@@ -64,6 +64,7 @@ namespace Repository.Repository
 
             hospitalOriginal.RazaoSocial = hospital.RazaoSocial;
             hospitalOriginal.Particular = hospital.Particular;
+            hospitalOriginal.Cnpj = hospital.Cnpj;
             hospitalOriginal.Faturamento = hospital.Faturamento;
             Context.SaveChanges();
             return true;
